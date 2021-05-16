@@ -8,6 +8,6 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
-        <Button></Button>
+        <Button Background="WhiteSmoke"></Button>
     </Grid>
 </Window>

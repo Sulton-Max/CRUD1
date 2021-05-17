@@ -6,8 +6,61 @@
         xmlns:local="clr-namespace:CRUD1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.Resources>
+        <Style x:Key="UI_Button_Template" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="15"/>
+        </Style>
 
-        <Button Background="WhiteSmoke" Grid.ColumnSpan="2"></Button>
-    </Grid>
+        <Style x:Key="UI_GridView_Template" TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+    </Window.Resources>
+    <Border Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBox Name="ConnStatus" IsReadOnly="True" Height="30" Width="100" Margin="30 0 0 0"/>
+                <Button Style="{StaticResource UI_Button_Template}" Margin="10 0 150 0" Click="UpdateBtn_Click">
+                    Update
+                </Button>
+                <Button Style="{StaticResource UI_Button_Template}" Click="AddBtn_Click">
+                    Add
+                </Button>
+                <Button Style="{StaticResource UI_Button_Template}">
+                    Edit
+                </Button>
+                <Button Style="{StaticResource UI_Button_Template}">
+                    Delete
+                </Button>
+            </StackPanel>
+
+            <Border Name="MainListBorder"  Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Width="650" Height="350">
+                <ListView x:Name="AccountListView" ItemsSource="{Binding Path=Accounts, Mode=OneWay}">
+
+                        <ListView.View>
+                        <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Accounts Information">
+                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}"  DisplayMemberBinding="{Binding Path=FirstName}" Header="FirstName" Width="200"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=LastName}" Header="LastName" Width="200"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=Age}" Header="Age" Width="100"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=Gender}" Header="Gender" Width="150"/>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+                
+            </Border>
+
+        </Grid>
+    </Border>
 </Window>

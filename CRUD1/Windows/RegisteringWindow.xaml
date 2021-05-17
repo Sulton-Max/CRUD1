@@ -1,0 +1,31 @@
+﻿<Window x:Class="CRUD1.RegisteringWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CRUD1"
+        mc:Ignorable="d"
+        Title="RegisteringWindow" Height="450" Width="400">
+    <Border Background="White" Padding="50px">
+        <StackPanel Background="White">
+
+            <Label Content="FirstName" FontSize="14"/>
+            <TextBox x:Name="FirstName" Padding="4" TextChanged="CheckValidity"/>
+            <Label Content="LastName" FontSize="14"/>
+            <TextBox x:Name="LastName" Padding="4" TextChanged="CheckValidity"/>
+            <Label Content="Age" FontSize="14"/>
+            <TextBox x:Name="Age" Padding="4" TextChanged="CheckValidity"/>
+            <Label Content="Gender" FontSize="14"/>
+            <ComboBox x:Name="Gender" Padding="4" SelectedIndex="0">
+                <ComboBoxItem Content="Male" Tag="true"/>
+                <ComboBoxItem Content="Female" Tag="false"/>
+            </ComboBox>
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0 50 0 50">
+                <Button x:Name="AddBtn" Content="Add" Height="45" Width="120" Margin="0 0 20 0" Click="AddBtn_Click" IsEnabled="false"/>
+                <Button Content="Cancel" Height="45" Width="120" Click="CancelBtn_Click"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+</Window>

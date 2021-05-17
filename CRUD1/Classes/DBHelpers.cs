@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
+using System.Windows.Controls;
 
 namespace CRUD1
 {
@@ -28,32 +29,50 @@ namespace CRUD1
     {
         #region FIELDS
         private string _use_tb = "dbo.Accounts";
-        private AccountsList _accounts;
+        public AccountsList Accounts { get; set; }
+        public Label LogSource { get; internal set; }
         #endregion
 
         #region CONSTRUCTORS
-        public DBExecuter(AccountsList accounts)
+        public DBExecuter()
         {
-            _accounts = accounts;
+            DBConnector.Connect();
         }
         #endregion
 
         #region BEHAVIOURS
-        public void Create(IAccount account)
+        public bool CheckConnection()
         {
-            string _create = string.Format("INSERT INTO {0} VALUES ({1}, '{2}', '{3}', {4}, '{5}');"
+            if (DBConnector.conn.State == System.Data.ConnectionState.Open)
+            {
+                LogSource.Content = "Connected";
+                return true;
+            }
+            else
+            {
+                LogSource.Content = "Not Connected";
+                return false;
+            }
+        }
+
+        public void Log(string logtxt) => LogSource.Content = logtxt;
+
+        public void Create(Account account)
+        {
+            string create = string.Format("INSERT INTO {0} VALUES ({1}, '{2}', '{3}', {4}, '{5}');"
                 , _use_tb, account.Id, account.FirstName, account.LastName, account.Age, account.Gender.ToString().ToUpper());
             SqlCommand command = new SqlCommand();
-            command.CommandText = _create;
+            command.CommandText = create;
             command.Connection = DBConnector.conn;
             command.ExecuteNonQuery();
-            _accounts.List = Read();
+            Read(); 
         }
-        public List<Account> Read()
+
+        public void Read()
         {
-            string _read = string.Format("SELECT * FROM {0}", _use_tb);
+            string read = string.Format("SELECT * FROM {0}", _use_tb);
             SqlCommand command = new SqlCommand();
-            command.CommandText = _read;
+            command.CommandText = read;
             command.Connection = DBConnector.conn;
             SqlDataReader reader = command.ExecuteReader();
             List<Account> accounts = new List<Account>();
@@ -67,19 +86,30 @@ namespace CRUD1
                     bool.Parse(reader.GetValue(4).ToString().ToLower())));
             }
             reader.Close();
-            return accounts;
+            Accounts.List = accounts;
         }
 
-        public List<IAccount> Update()
+        public void Update(Account account)
         {
-            return null;
+            string update = string.Format("UPDATE {0} SET {1} WHERE Id={2}", _use_tb, account.ToString(), account.Id);
+            SqlCommand command = new SqlCommand();
+            command.CommandText = update;
+            command.Connection = DBConnector.conn;
+            command.ExecuteNonQuery();
+            Log($"Updated account with id {account.Id}");
+            Read();
         }
 
-        public bool Delete(int id)
+        public void Delete(int id)
         {
-            return true;
+            string delete = string.Format("DELETE FROM {0} WHERE {1}.Id = {2}", _use_tb, _use_tb, id);
+            SqlCommand command = new SqlCommand();
+            command.CommandText = delete;
+            command.Connection = DBConnector.conn;
+            command.ExecuteNonQuery();
+            Log($"Deleted account with id {id}");
+            Read();
         }
-
         #endregion
     }
 }

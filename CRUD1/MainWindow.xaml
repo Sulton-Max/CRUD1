@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CRUD1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="480" Width="800">
     <Window.Resources>
         <Style x:Key="UI_Button_Template" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="80"/>
@@ -28,39 +28,43 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <TextBox Name="ConnStatus" IsReadOnly="True" Height="30" Width="100" Margin="30 0 0 0"/>
-                <Button Style="{StaticResource UI_Button_Template}" Margin="10 0 150 0" Click="UpdateBtn_Click">
-                    Update
-                </Button>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{StaticResource UI_Button_Template}" Click="AddBtn_Click">
                     Add
                 </Button>
-                <Button Style="{StaticResource UI_Button_Template}">
+                <Button Style="{StaticResource UI_Button_Template}" Click="EditBtn_Click">
                     Edit
                 </Button>
-                <Button Style="{StaticResource UI_Button_Template}">
+                <Button Style="{StaticResource UI_Button_Template}" Click="DeleteBtn_Click">
                     Delete
                 </Button>
             </StackPanel>
 
-            <Border Name="MainListBorder"  Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"
-                    Width="650" Height="350">
-                <ListView x:Name="AccountListView" ItemsSource="{Binding Path=Accounts, Mode=OneWay}">
+            <StackPanel Grid.Row="1">
+                <Border Name="MainListBorder" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Width="650" Height="330">
+
+                    <ListView x:Name="AccountListView" ItemsSource="{Binding Path=List, Mode=OneWay}">
 
                         <ListView.View>
-                        <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Accounts Information">
-                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}"  DisplayMemberBinding="{Binding Path=FirstName}" Header="FirstName" Width="200"/>
-                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=LastName}" Header="LastName" Width="200"/>
-                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=Age}" Header="Age" Width="100"/>
-                            <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=Gender}" Header="Gender" Width="150"/>
-                        </GridView>
-                    </ListView.View>
+                            <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Accounts Information">
+                                <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}"  DisplayMemberBinding="{Binding Path=FirstName}" Header="FirstName" Width="200"/>
+                                <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=LastName}" Header="LastName" Width="200"/>
+                                <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=Age}" Header="Age" Width="100"/>
+                                <GridViewColumn HeaderContainerStyle="{StaticResource UI_GridView_Template}" DisplayMemberBinding="{Binding Path=Gender}" Header="Gender" Width="150"/>
+                            </GridView>
+                        </ListView.View>
 
-                </ListView>
-                
-            </Border>
+                    </ListView>
+                </Border>
 
+                <StackPanel Orientation="Horizontal" Margin="30 10 0 0">
+                    <Label Content="Last Operation : " Foreground="#333" FontWeight="SemiBold"/>
+                    <Label x:Name="LogLabel" Foreground="green" FontWeight="bold" Content="Connected"/>
+
+                </StackPanel>
+
+            </StackPanel>
         </Grid>
     </Border>
 </Window>

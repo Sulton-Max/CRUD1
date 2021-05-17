@@ -1,14 +1,16 @@
-﻿<Window x:Class="CRUD1.RegisteringWindow"
+﻿<Window x:Class="CRUD1.Windows.AccountForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CRUD1"
+        xmlns:local="clr-namespace:CRUD1.Windows"
         mc:Ignorable="d"
-        Title="RegisteringWindow" Height="450" Width="400">
-    <Border Background="White" Padding="50px">
+        Title="AccountForm" Height="450" Width="400">
+    <Border Background="White" Padding="50 20 50 0">
         <StackPanel Background="White">
 
+            <Label x:Name="IdLabel"  Content="Id" FontSize="14" Visibility="Collapsed"/>
+            <TextBox x:Name="Id" Padding="4" IsReadOnly="True" Visibility="Collapsed"/>
             <Label Content="FirstName" FontSize="14"/>
             <TextBox x:Name="FirstName" Padding="4" TextChanged="CheckValidity"/>
             <Label Content="LastName" FontSize="14"/>
@@ -22,7 +24,7 @@
             </ComboBox>
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0 50 0 50">
-                <Button x:Name="AddBtn" Content="Add" Height="45" Width="120" Margin="0 0 20 0" Click="AddBtn_Click" IsEnabled="false"/>
+                <Button x:Name="PrimaryBtn" Content="Add" Height="45" Width="120" Margin="0 0 20 0" Click="PriaaryBtn_Click" IsEnabled="false"/>
                 <Button Content="Cancel" Height="45" Width="120" Click="CancelBtn_Click"/>
             </StackPanel>
 

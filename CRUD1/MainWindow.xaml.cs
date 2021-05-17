@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CRUD1.Windows;
 
 namespace CRUD1
 {
@@ -20,41 +22,47 @@ namespace CRUD1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private AccountsList accounts = new AccountsList();
-        private RegisteringWindow _regWindow = new RegisteringWindow(accounts);
-        private 
-
-        //public List<Account> Accounts
-        //{
-        //    get { return _accounts; }
-        //    set
-        //    {
-        //        _accounts = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        public AccountsList Accounts = new AccountsList();
+        private DBExecuter _executer = new DBExecuter();
+        private AccountForm _accForm = new AccountForm();
 
         public MainWindow()
         {
             InitializeComponent();
-            this.ConnStatus.Text = DBConnector.Connect();
-            DataContext = this;
-            Accounts = SqlCommandsHelper.Read();
+
+            _executer.Accounts = Accounts;
+            _executer.LogSource = LogLabel;
+            _accForm.Executer = _executer;
+
+            DataContext = Accounts;
+            _executer.Read();
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            _regWindow.Show();
+            _accForm.CreateMode();
+            _accForm.Show();
         }
 
-        private void UpdateBtn_Click(object sender, RoutedEventArgs e)
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
+            var acc = this.AccountListView.SelectedItem as Account;
+            if (acc == null)
+                this.LogLabel.Content = "Not selected";
+            else
+            {
+                _accForm.EditMode(acc);
+                _accForm.Show();
+            }
         }
 
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var acc = this.AccountListView.SelectedItem as Account;
+            if (acc == null)
+                this.LogLabel.Content = "Not selected";
+            else
+                _executer.Delete(acc.Id);
+        }
     }
 }
